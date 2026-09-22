@@ -1,7 +1,9 @@
 package com.project.project.auth.controller;
 
+import com.project.project.auth.dto.ChangePasswordRequest;
 import com.project.project.auth.dto.LoginRequest;
 import com.project.project.auth.dto.LoginResponse;
+import com.project.project.auth.dto.ResetPasswordRequest;
 import com.project.project.auth.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +27,15 @@ public class AuthController {
     @PostMapping("forget-password")
     public String forgetPassword(String email){
         return authService.forgetPassword(email);
+    }
+
+    @PostMapping("reset-password")
+    public String resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest){
+        return authService.resetPassword(resetPasswordRequest.password(), resetPasswordRequest.token());
+    }
+
+    @PostMapping("change-password")
+    public String changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return authService.changePassword(changePasswordRequest.oldPassword(),  changePasswordRequest.newPassword());
     }
 }
