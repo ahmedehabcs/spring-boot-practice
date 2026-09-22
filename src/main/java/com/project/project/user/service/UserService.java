@@ -10,6 +10,7 @@ import com.project.project.user.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public UserResponse createUser(CreateUserRequest createUserRequest) {
         User user = UserMapper.toEntity(createUserRequest);
 
@@ -30,7 +34,7 @@ public class UserService {
         if (existsByEmail(email)) throw new ApiException(HttpStatus.CONFLICT, "Email already exists");
         user.setEmail(email);
 
-        user.setPassword(createUserRequest.password()); // need to hash the password later when auth is made
+        user.setPassword(passwordEncoder.encode(createUserRequest.password())); // need to hash the password later when auth is made
 
         User savedUser = userRepository.save(user);
         return UserMapper.toResponse(savedUser);
