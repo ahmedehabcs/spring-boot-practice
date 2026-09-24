@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "campaigns")
 @Setter
 @Getter
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class Campaign {
 
     private String campaignDescription;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal price;
 
     @ManyToMany

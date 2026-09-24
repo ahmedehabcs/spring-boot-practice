@@ -40,7 +40,7 @@ public class UserController {
         return userService.getUserByEmail(email);
     }
 
-    @PreAuthorize("hasAnyAuthority('SUPERADMIN', 'ADMIN', 'EMPLOYEE')")
+    @PreAuthorize("hasAnyAuthority('SUPERADMIN', 'ADMIN')")
     @PostMapping
     public UserResponse createUser(@Valid @RequestBody CreateUserRequest createUserRequest){
         return userService.createUser(createUserRequest);
